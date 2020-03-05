@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import org.jsoup.Jsoup;
@@ -18,8 +19,14 @@ import okhttp3.Response;
 
 public class theEx {
 
-	public static String mainUrl = null;
+	public static List<String> urlLoop;
+	public static String mainUrl;
 	public static String getHtml(String url) throws IOException {
+		if(theEx.urlLoop.contains(url))
+			return null;
+		else
+			theEx.urlLoop.add(url);
+		
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder().url(url).get().build();
 		Response response = null;
