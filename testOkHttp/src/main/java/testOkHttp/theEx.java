@@ -21,7 +21,10 @@ import okhttp3.Response;
 public class theEx {
 
 	public static List<String> urlLoop = new ArrayList<String>();
+	public static List<String> imgLoop = new ArrayList<String>();
 	public static String mainUrl;
+	
+	
 	public static String getHtml(String url) throws IOException {
 		if(theEx.urlLoop.contains(url))
 			return null;
@@ -35,15 +38,23 @@ public class theEx {
 			response = client.newCall(request).execute();
 			if(response.isSuccessful())
 				System.out.println("got html");
-			else
+			else {
 				System.out.println("responseFail");
+				return null;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return response.body().string();
 	}
 	
+	
+	
 	public static void downloader(String imgUrl) throws IOException {
+		if(theEx.imgLoop.contains(imgUrl))
+			return;
+		else
+			theEx.imgLoop.add(imgUrl);
 		OkHttpClient client = new OkHttpClient();
 		Request req = new Request.Builder().url(imgUrl).get().build();
 		Response res = client.newCall(req).execute();
@@ -69,13 +80,15 @@ public class theEx {
 	}
 	
 	public static void getHref(String html) throws IOException {
+		if(html==null)
+			return;
 		Document doc = Jsoup.parse(html);
 		Elements imgEles = doc.select("img[src$=.jpg]");
 		Iterator<Element> imgEli = imgEles.iterator();
 		while(imgEli.hasNext()) {
 			Element imgEl = imgEli.next();
 			String imgUrl = imgEl.attr("src");
-			if((!imgUrl.substring(0, 8).equals("https://"))&&!imgUrl.substring(0, 7).equals("http://"))
+			if(imgUrl.length()<8||(!imgUrl.substring(0, 8).equals("https://"))&&!imgUrl.substring(0, 7).equals("http://"))
 				imgUrl = theEx.mainUrl + imgUrl ;
 			System.out.println(imgUrl);
 			theEx.downloader(imgUrl);
@@ -85,15 +98,16 @@ public class theEx {
 		while(eli.hasNext()) {
 			Element el = eli.next();
 			String url = el.attr("href");
-			if((!url.substring(0, 8).equals("https://"))&&!url.substring(0, 7).equals("http://"))
+			if(url.length()<8||(!url.substring(0, 8).equals("https://"))&&!url.substring(0, 7).equals("http://"))
 				url = theEx.mainUrl + url ;
 			System.out.println("现已进入更深一层,地址为"+url);
 			theEx.getHref(theEx.getHtml(url));
 		}
+		System.out.println("返回一层");
 	}
 	
 	public static void main(String[] args) {
-		theEx.mainUrl = "http://sotobou-life.com/good";
+		theEx.mainUrl = "http://www.xfyy970.com";
 		try {
 			theEx.getHref(theEx.getHtml(theEx.mainUrl));
 		} catch (IOException e) {
