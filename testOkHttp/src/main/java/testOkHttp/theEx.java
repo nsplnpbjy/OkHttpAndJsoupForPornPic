@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,7 @@ import okhttp3.Response;
 
 public class theEx {
 
-	public static List<String> urlLoop;
+	public static List<String> urlLoop = new ArrayList<String>();
 	public static String mainUrl;
 	public static String getHtml(String url) throws IOException {
 		if(theEx.urlLoop.contains(url))
