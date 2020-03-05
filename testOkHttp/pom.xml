@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>testOkHttp</groupId>
+  <artifactId>testOkHttp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>testOkHttp</name>
+  <description>testOkHttp</description>
+		  <dependencies>
+					  <dependency>
+					  <groupId>com.squareup.okhttp3</groupId>
+					  <artifactId>okhttp</artifactId>
+					  <version>3.2.0</version>
+					</dependency>
+					<dependency>
+					    <groupId>com.alibaba</groupId>
+					    <artifactId>fastjson</artifactId>
+					    <version>1.2.4</version>
+					</dependency>
+					<dependency>
+					    <groupId>org.jsoup</groupId>
+					    <artifactId>jsoup</artifactId>
+					    <version>1.13.1</version>
+					</dependency>
+		</dependencies>
+</project>
