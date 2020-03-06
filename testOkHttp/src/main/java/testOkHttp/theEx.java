@@ -1,7 +1,6 @@
 package testOkHttp;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +33,9 @@ public class theEx {
 			theEx.urlLoop.add(url);
 		
 		OkHttpClient client = new OkHttpClient();
-		Request request = new Request.Builder().url(url).get().build();
-		Response response = null;
+		Request request = new Request.Builder().url(url).get()
+				.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36").build();
+				Response response = null;
 		try {
 			response = client.newCall(request).execute();
 			if(response.isSuccessful())
@@ -58,7 +58,9 @@ public class theEx {
 		else
 			theEx.imgLoop.add(imgUrl);
 		OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(5, TimeUnit.SECONDS).build();
-		Request req = new Request.Builder().url(imgUrl).get().build();
+		
+		Request req = new Request.Builder().url(imgUrl).get()
+				.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36").build();
 		Response res;
 		try {
 			res = client.newCall(req).execute();
@@ -84,7 +86,6 @@ public class theEx {
 			is.close();
 			System.out.println(fileName + "已下载完成");
 		}
-			
 	}
 	
 	public static void getHref(String html) throws IOException {
