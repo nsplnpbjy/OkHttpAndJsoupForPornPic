@@ -1,6 +1,7 @@
 package testOkHttp;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -50,14 +52,20 @@ public class theEx {
 	
 	
 	
-	public static void downloader(String imgUrl) throws IOException {
+	public static void downloader(String imgUrl) throws IOException  {
 		if(theEx.imgLoop.contains(imgUrl))
 			return;
 		else
 			theEx.imgLoop.add(imgUrl);
-		OkHttpClient client = new OkHttpClient();
+		OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(5, TimeUnit.SECONDS).build();
 		Request req = new Request.Builder().url(imgUrl).get().build();
-		Response res = client.newCall(req).execute();
+		Response res;
+		try {
+			res = client.newCall(req).execute();
+		} catch (IOException e) {
+			System.out.println(imgUrl+"链接已超时,略过此图");
+			return;
+		}
 		
 		String fileName = null;
 		InputStream is =  res.body().byteStream();
